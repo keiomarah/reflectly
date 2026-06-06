@@ -27,6 +27,7 @@
   --color-error: rgb(255, 180, 180);
   --color-success-text: rgb(18, 65, 6);
   --color-error-text: rgb(105, 5, 5);
+  --color-invalid-input: rgb(192, 0, 0);
 
   --text-xs: clamp(0.75rem, 0.72rem + 0.15vw, 0.875rem);
   --text-sm: clamp(0.875rem, 0.83rem + 0.2vw, 1rem);
@@ -242,6 +243,14 @@ h1 {
   border-radius: var(--round-border);
 }
 
+.invalid-input {
+  border: 2px solid var(--color-invalid-input);
+}
+
+.invalid-input-text {
+  color: var(--color-invalid-input);
+  font-size: var(--text-sm);
+}
 .failure {
   background-color: var(--color-error);
   color: var(--color-error-text);

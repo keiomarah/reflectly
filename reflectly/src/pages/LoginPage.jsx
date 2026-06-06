@@ -8,6 +8,7 @@ import { AuthLayout } from "../components/AuthLayout";
 function LoginForm({ setFlashMessage, setCategory }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState([]);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -40,14 +41,48 @@ function LoginForm({ setFlashMessage, setCategory }) {
       </p>
       <form onSubmit={handleSubmit}>
         <label>Username</label>
-        <input name="username" onChange={(e) => setUsername(e.target.value)} />
-
+        <input
+          className={errors.username ? "invalid-input" : ""}
+          required
+          name="username"
+          onChange={(e) => setUsername(e.target.value)}
+          onBlur={() => {
+            if (username.length < 1) {
+              setErrors((prev) => ({
+                ...prev,
+                username: "Please enter a valid username.",
+              }));
+            }
+          }}
+          onFocus={() => {
+            setErrors((prev) => ({ ...prev, username: "" }));
+          }}
+        />
+        {errors.username && (
+          <p className="invalid-input-text">{errors.username}</p>
+        )}
         <label>Password </label>
         <input
+          className={errors.password ? "invalid-input" : ""}
           name="password"
           type="password"
           onChange={(e) => setPassword(e.target.value)}
+          required
+          onBlur={() => {
+            if (password.length < 1) {
+              setErrors((prev) => ({
+                ...prev,
+                password: "Please enter a password.",
+              }));
+            }
+          }}
+          onFocus={() => {
+            setErrors((prev) => ({ ...prev, password: "" }));
+          }}
         />
+        {errors.password && (
+          <p className="invalid-input-text">{errors.password}</p>
+        )}
         <button className="btn-primary login-btn">Log in</button>
         <p className="secondary-text">
           Don't have an account?
