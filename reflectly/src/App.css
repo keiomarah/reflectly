@@ -1,0 +1,265 @@
+:root {
+  --color-background: #ffffff;
+  --color-accent: #000000;
+
+  --color-text-primary: #000000;
+  --color-text-secondary: #828282;
+
+  --color-border: #828282;
+
+  --color-happy: #f6ff78;
+  --color-surprise: #88ffba;
+  --color-afraid: #e69cff;
+  --color-disgust: #ffb75f;
+  --color-bad: #78d0ff;
+  --color-sad: #8e99ff;
+  --color-angry: #ff6c6c;
+
+  --color-happy-dark: #484d00;
+  --color-surprise-dark: #00662b;
+  --color-afraid-dark: #5f007f;
+  --color-disgust-dark: #913f00;
+  --color-bad-dark: #004c75;
+  --color-sad-dark: #000b73;
+  --color-angry-dark: #690000;
+
+  --color-success: rgb(196, 255, 180);
+  --color-error: rgb(255, 180, 180);
+  --color-success-text: rgb(18, 65, 6);
+  --color-error-text: rgb(105, 5, 5);
+
+  --text-xs: clamp(0.75rem, 0.72rem + 0.15vw, 0.875rem);
+  --text-sm: clamp(0.875rem, 0.83rem + 0.2vw, 1rem);
+  --text-base: clamp(1rem, 0.95rem + 0.3vw, 1.125rem);
+  --text-lg: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+  --text-xl: clamp(1.25rem, 1.1rem + 0.8vw, 1.75rem);
+  --text-2xl: clamp(1.5rem, 1.2rem + 1.2vw, 2.25rem);
+  --text-3xl: clamp(2rem, 1.5rem + 2vw, 3.5rem);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+
+  --button-height: 45px;
+  --button-primary-background: #000000;
+  --button-primary-text: #ffffff;
+  --button-padding-width: 24px;
+  --input-height: 35px;
+
+  --round-border: 20px;
+  --subtle-round-border: 10px;
+
+  --main-transition: all 0.3s ease;
+}
+
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  /*border: 1px solid black;*/
+}
+
+body {
+  font-family: "Inter", sans-serif;
+}
+
+input {
+  height: var(--input-height);
+  border-radius: var(--subtle-round-border);
+  border: 1px solid var(--color-border);
+  padding: 0 var(--space-2);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+label {
+  margin: var(--space-3) 0 var(--space-2) 0;
+}
+h1 {
+  font-family: "IM Fell French Canon", serif;
+  font-weight: normal;
+  font-size: var(--text-2xl);
+}
+
+.btn-primary {
+  height: var(--button-height);
+  background-color: var(--button-primary-background);
+  color: var(--button-primary-text);
+  padding: 0 var(--button-padding-width);
+  width: fit-content;
+  border-radius: var(--round-border);
+  transition: var(--main-transition);
+  margin: var(--space-3) 0;
+  font-weight: bolder;
+}
+
+.btn-primary:hover {
+  color: var(--color-accent);
+  background-color: transparent;
+  border: 1px solid var(--color-accent);
+  cursor: pointer;
+}
+.secondary-text {
+  color: var(--color-text-secondary);
+}
+
+.register-link {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: var(--main-transition);
+}
+
+.register-link:hover {
+  color: var(--color-angry);
+}
+
+/*login page - desktop*/
+
+.login-page {
+  height: 100vh;
+  padding: 2rem 17vw;
+  background-image: url("./assets/login-page-gradient.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.login-form {
+  position: relative;
+  height: 100%;
+  border: 0.5rem solid white;
+  border-radius: var(--round-border);
+}
+
+.left-panel {
+  width: 50%;
+  position: absolute;
+  background-color: var(--color-background);
+  height: 100%;
+  border-radius: 0 var(--round-border) var(--round-border) 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1rem, calc(0.636rem + 1.818vw), 2rem)
+    clamp(3rem, calc(1.909rem + 5.455vw), 6rem);
+  z-index: 100;
+}
+
+.right-panel {
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+
+  border-radius: var(--round-border);
+  position: relative;
+  z-index: 50;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: clamp(1rem, calc(0.455rem + 2.727vw), 2.5rem);
+}
+
+.decorative-bar {
+  width: 50px;
+  height: 25px;
+  border: 4px solid var(--color-happy);
+  border-bottom: 0;
+  border-radius: 100px 100px 0 0;
+  margin-bottom: var(--space-1);
+}
+
+.right-panel .login-headline {
+  color: var(--color-accent);
+  width: 45%;
+  text-align: right;
+  /*background-color: rgba(255, 255, 255, 0.323);
+  padding: 2rem;
+  border-radius: var(--round-border);*/
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-2);
+}
+
+.login-headline h2 {
+  font-family: "IM Fell French Canon", serif;
+  font-weight: normal;
+  font-size: var(--text-2xl);
+}
+
+.login-logo {
+  width: clamp(5rem, 8rem, 10rem);
+}
+
+.login-btn {
+  width: 100%;
+  border-radius: var(--subtle-round-border);
+  border: none;
+  background-color: var(--color-accent);
+}
+
+.login-btn:hover {
+  background-color: var(--color-angry);
+  border: none;
+}
+
+/*login page - mobile*/
+@media screen and (max-width: 820px) {
+  .right-panel {
+    display: none;
+  }
+
+  .left-panel {
+    width: 100%;
+    border-radius: 0;
+    padding: clamp(2rem, 3rem, 5rem);
+  }
+}
+
+.flashed-message {
+  transition: var(--main-transition);
+  opacity: 1;
+  position: fixed;
+  width: 70vw;
+  z-index: 2000;
+  top: 5%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--round-border);
+}
+
+.failure {
+  background-color: var(--color-error);
+  color: var(--color-error-text);
+}
+
+.success {
+  background-color: var(--color-success);
+  color: var(--color-success-text);
+}
+
+.hide {
+  opacity: 0;
+}
+
+.dismiss-btn {
+  background: transparent;
+  font-size: 1.5rem;
+  border: none;
+  margin-right: 8px;
+  cursor: pointer;
+}
