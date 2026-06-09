@@ -4,16 +4,14 @@ import { Link } from "react-router-dom";
 export function MenuIcon() {
   return (
     <div className="menu">
-      <button className="menu-icon">
-        <FontAwesomeIcon icon={faBars} />
-      </button>
+      <button className="menu-icon">✦</button>
       <nav className="nav-links">
         <ul>
           <li>
-            <Link>Home</Link>
+            <Link className="link-nav">Home</Link>
           </li>
           <li>
-            <Link>Account</Link>
+            <Link className="link-nav">Account</Link>
           </li>
         </ul>
       </nav>
