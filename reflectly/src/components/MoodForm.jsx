@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark, faCheck } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import { text } from "@fortawesome/fontawesome-svg-core";
 
 const MOODS = {
   Happy: [
@@ -30,11 +31,10 @@ const MOODS = {
   ],
   Disgust: ["Disapproval", "Disdain", "Sick", "Repulsion"],
 };
-function MainMood({ setShowMainMoods, setShowSubMood, setMainMood }) {
+function MainMood({ setStep, setMainMood }) {
   function handleSelect(e) {
     setMainMood(e.currentTarget.textContent);
-    setShowMainMoods(false);
-    setShowSubMood(true);
+    setStep("sub");
   }
 
   return (
@@ -64,16 +64,10 @@ function MainMood({ setShowMainMoods, setShowSubMood, setMainMood }) {
   );
 }
 
-function SubMood({
-  mainMood,
-  setSubMood,
-  setShowSubMood,
-  setShowJournalEntry,
-}) {
+function SubMood({ mainMood, setSubMood, setStep }) {
   function handleSelect(e) {
     setSubMood(e.currentTarget.textContent);
-    setShowSubMood(false);
-    setShowJournalEntry(true);
+    setStep("journal");
   }
   return (
     <div className={`submood-page`}>
@@ -94,25 +88,42 @@ function SubMood({
   );
 }
 
-function JournalEntry({ mainMood, subMood, setDraft, submitEntry }) {
+function JournalEntry({ mainMood, subMood, setDraft, submitEntry, entry }) {
+  const textareaRef = useRef(null);
+  useEffect(() => {
+    const text = textareaRef.current;
+    if (entry) {
+      text.value = entry.text;
+    }
+  }, []);
+
   function updateDraft(e) {
     setDraft(e.target.value);
   }
   return (
-    <div className={`journal-page background-${mainMood}`}>
-      <h1>{subMood}?</h1>
-      <textarea placeholder="I am feeling..." onChange={updateDraft}></textarea>
+    <div className={`journal-page background-${mainMood || entry?.mood}`}>
+      <h1>{subMood || entry?.submood}?</h1>
+      <textarea
+        ref={textareaRef}
+        placeholder="I am feeling..."
+        onChange={updateDraft}
+      ></textarea>
       <button className="menu-icon" onClick={submitEntry}>
         <FontAwesomeIcon icon={faCheck} />
       </button>
     </div>
   );
 }
-export function MoodForm({ isOpen, setShowMoodForm }) {
-  const [showMainMoods, setShowMainMoods] = useState(false);
+export function MoodForm({
+  setEntries,
+  isOpen,
+  setShowMoodForm,
+  entry,
+  setEntry,
+}) {
+  const [step, setStep] = useState("");
   const [mainMood, setMainMood] = useState("");
-  const [showSubMood, setShowSubMood] = useState(false);
-  const [showJournalEntry, setShowJournalEntry] = useState(false);
+
   const [subMood, setSubMood] = useState("");
   const [draft, setDraft] = useState("");
   const dialogRef = useRef(null);
@@ -122,36 +133,66 @@ export function MoodForm({ isOpen, setShowMoodForm }) {
 
     if (isOpen) {
       dialog.showModal();
-      setShowMainMoods(true);
+      if (entry) {
+        setStep("journal");
+      } else {
+        setStep("main");
+      }
     } else {
       dialog.close();
+      setStep("");
+      setMainMood("");
+      setEntry(null);
     }
   }, [isOpen]);
 
   async function submitEntry() {
     try {
-      const response = await axios.post(
-        "/api/journal/entry",
-        {
-          mood: mainMood,
-          "sub-mood": subMood,
-          prompt: "None",
-          text: draft,
-        },
-        { withCredentials: true },
-      );
+      if (entry) {
+        console.log(entry.submood);
+        const response = await axios.put(
+          `/api/journal/entry/${entry.id}`,
+          {
+            mood: entry.mood,
+            "sub-mood": entry.submood,
+            prompt: "None",
+            text: draft,
+          },
+          { withCredentials: true },
+        );
+      } else {
+        const response = await axios.post(
+          "/api/journal/entry",
+          {
+            mood: mainMood,
+            "sub-mood": subMood,
+            prompt: "None",
+            text: draft,
+          },
+          { withCredentials: true },
+        );
+      }
+
+      try {
+        const response = await axios.get("/api/journal/entries", {
+          withCredentials: true,
+        });
+        setEntries(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+
       const dialog = dialogRef.current;
-      dialog.close();
-      setShowMainMoods(false);
-      setShowSubMood(false);
-      setShowJournalEntry(false);
-      setMainMood("");
+      setStep("");
+      setEntry(null);
+      setShowMoodForm(false);
     } catch (error) {
       console.log(error);
     }
   }
+
   return (
-    <dialog ref={dialogRef} className={`background-${mainMood}`}>
+    <dialog ref={dialogRef} className={`background-${mainMood || entry?.mood}`}>
       <button
         className="close-dialog-btn control-btn"
         onClick={() => {
@@ -160,28 +201,24 @@ export function MoodForm({ isOpen, setShowMoodForm }) {
       >
         <FontAwesomeIcon icon={faXmark} />
       </button>
-      {showMainMoods && (
-        <MainMood
-          setShowMainMoods={setShowMainMoods}
-          setMainMood={setMainMood}
-          setShowSubMood={setShowSubMood}
-        />
+      {step === "main" && (
+        <MainMood setStep={setStep} setMainMood={setMainMood} />
       )}
-      {showSubMood && (
+      {step === "sub" && (
         <SubMood
           mainMood={mainMood}
           setSubMood={setSubMood}
-          setShowSubMood={setShowSubMood}
-          setShowJournalEntry={setShowJournalEntry}
+          setStep={setStep}
         />
       )}
 
-      {showJournalEntry && (
+      {step === "journal" && (
         <JournalEntry
           mainMood={mainMood}
           subMood={subMood}
           setDraft={setDraft}
           submitEntry={submitEntry}
+          entry={entry}
         />
       )}
     </dialog>

@@ -40,7 +40,7 @@ def entry(id):
 @journal.route("/entry/<int:id>", methods=["PUT"])
 @jwt_required()
 def update_entry(id):
-    data = request.json()
+    data = request.json
 
     if data:
         mood = data.get("mood")

@@ -640,14 +640,47 @@ dialog {
 }
 
 .journal-entry-container {
-  display: flex;
-  gap: var(--space-6);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  justify-items: center;
+  gap: var(--space-7);
+  width: fit-content;
   padding: var(--space-6);
-  flex-wrap: wrap;
+  margin: 0 auto;
 }
+
 .journal-entry {
   width: 300px;
   height: 300px;
   border-radius: var(--subtle-round-border);
   padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.journal-entry:hover {
+  cursor: pointer;
+}
+
+.delete-button {
+  display: none;
+  transition: var(--main-transition);
+  width: fit-content;
+  padding: 0;
+  bottom: var;
+}
+
+.journal-entry-wrapper {
+  position: relative;
+}
+
+.journal-entry-wrapper:hover .delete-button {
+  display: block;
+  position: absolute;
+}
+
+.delete-button:hover {
+  color: red;
 }

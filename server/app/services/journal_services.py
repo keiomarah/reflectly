@@ -16,6 +16,7 @@ def get_entries():
         {   
             "id": entry.id,
             "mood": entry.mood,
+            "submood": entry.sub_mood,
             "prompt": entry.prompt,
             "text": entry.text,
             "created-at": entry.created_at
@@ -52,7 +53,7 @@ def put_entry(id, mood, sub_mood, prompt, updated_at, text):
         db.session.commit()
         return jsonify({
             "message": "Entry successfully updated"
-        }),
+        }), 200
 
 def delete_entry(id):
     entry = db.session.get(JournalEntry, id)
