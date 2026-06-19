@@ -356,6 +356,7 @@ h1 {
   animation: shrinkAndGrow 5s ease-in-out infinite backwards;
   box-sizing: border-box;
   transform-origin: center;
+  z-index: 0;
 }
 
 .circle-6 {

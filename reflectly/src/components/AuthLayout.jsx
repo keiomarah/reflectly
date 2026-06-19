@@ -2,24 +2,11 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/reflectly-logo.png";
 import axios from "axios";
-import { FlashMessage } from "./FlashMessage";
 
-export function AuthLayout({
-  flashMessage,
-  category,
-  setFlashMessage,
-  children,
-}) {
+export function AuthLayout({ children }) {
   return (
     <>
       <div className="login-page">
-        {flashMessage && (
-          <FlashMessage
-            message={flashMessage}
-            type={category}
-            setFlashMessage={setFlashMessage}
-          />
-        )}
         <div className="login-form">
           <div className="left-panel">{children}</div>
           <div className="right-panel">

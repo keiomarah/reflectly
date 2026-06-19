@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import logo from "../assets/reflectly-logo.png";
 import axios from "axios";
-import { FlashMessage } from "../components/FlashMessage";
 import { AuthLayout } from "../components/AuthLayout";
 import toast from "react-hot-toast";
+import { validatePassword } from "../utils/validation";
 
 function SignUpForm({ setFlashMessage, setCategory }) {
   const [name, setName] = useState("");
@@ -138,27 +138,10 @@ function SignUpForm({ setFlashMessage, setCategory }) {
           name="password1"
           type="password"
           onChange={(e) => setPassword1(e.target.value)}
-          onBlur={() => {
-            let passwordErrors = [];
-            if (password1.length < 8) {
-              passwordErrors.push("Password must be at least 8 characters.");
-            }
-            if (!/[a-z]/.test(password1)) {
-              passwordErrors.push(
-                "Password must contain a lower case character.",
-              );
-            }
-            if (!/[A-Z]/.test(password1)) {
-              passwordErrors.push(
-                "Password must contain a upper case character.",
-              );
-            }
-            if (!/[^a-zA-Z0-9 ]/.test(password1)) {
-              passwordErrors.push("Passowrd must contain a special character.");
-            }
-
-            setErrors((prev) => ({ ...prev, password1: passwordErrors }));
-          }}
+          onBlur={setErrors((prev) => ({
+            ...prev,
+            password1: validatePassword(password1),
+          }))}
           onFocus={() => {
             setErrors((prev) => ({ ...prev, password1: [] }));
           }}
