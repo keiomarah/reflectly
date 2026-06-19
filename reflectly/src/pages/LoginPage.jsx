@@ -65,7 +65,7 @@ function LoginForm() {
       <img src={logo} className="login-logo" alt="Concentric circles logo" />
       <h1 className="login-header-text">Welcome back.</h1>
       <p className="secondary-text">
-        Enter your credentials to access your account.
+        Enter your details to access your account.
       </p>
       <form id="login-form" noValidate onSubmit={handleSubmit}>
         <label htmlFor="username">Username</label>

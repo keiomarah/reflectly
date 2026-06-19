@@ -1,3 +1,21 @@
+export function validatePasswordMatch(password1, password2) {
+  return password1 !== password2 ? "Passwords do not match." : "";
+}
+export function validateUsername(username) {
+  if (username.length < 1) {
+    return "Please enter a valid username.";
+  } else if (/\s/.test(username.trim())) {
+    return "Username must not contain any spaces.";
+  }
+
+  return "";
+}
+export function validateEmail(email) {
+  return !email.includes("@") ? "A valid email address includes '@'." : "";
+}
+export function validateName(name, type) {
+  return name.length < 1 ? `Please enter a ${type}` : "";
+}
 export function validatePassword(password) {
   let passwordErrors = [];
   if (password.length < 8) {

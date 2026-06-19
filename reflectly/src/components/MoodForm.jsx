@@ -7,6 +7,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { text } from "@fortawesome/fontawesome-svg-core";
+import toast from "react-hot-toast";
 
 const MOODS = {
   Happy: [
@@ -198,6 +199,7 @@ export function MoodForm({
       dialog.close();
       setStep("");
       setMainMood("");
+      setSubMood("");
       setEntry(null);
     }
   }, [isOpen]);
@@ -215,6 +217,8 @@ export function MoodForm({
           },
           { withCredentials: true },
         );
+
+        toast.success(response.data.message);
       } else {
         const response = await axios.post(
           "/api/journal/entry",
@@ -226,6 +230,7 @@ export function MoodForm({
           },
           { withCredentials: true },
         );
+        toast.success(response.data.message);
       }
 
       try {

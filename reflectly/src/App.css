@@ -254,10 +254,12 @@ h1 {
   width: clamp(5rem, 8rem, 10rem);
 }
 
-.login-btn {
+.login-btn,
+.create-account-btn {
   width: 100%;
   border-radius: var(--subtle-round-border);
   background-color: var(--color-accent);
+  margin-top: var(--space-5);
 }
 
 /*login page - mobile*/
