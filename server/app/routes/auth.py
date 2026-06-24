@@ -3,7 +3,7 @@ from flask import request
 from flask import jsonify
 from app.models.user import User
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
-from app.services.auth_services import get_user_by_email_or_username, password_match, check_strong_password, register_user, user_login
+from app.services.auth_services import get_user_by_email_or_username, password_match, check_strong_password, register_user, user_login, update_user_account, confirm_delete_user
 auth = Blueprint("auth", __name__)
 
 @auth.route("/signup", methods=["POST"])
@@ -55,7 +55,6 @@ def logout():
 @jwt_required()
 def me():
     user_id = get_jwt_identity()
-    print(user_id)
     user = User.query.get(user_id)
 
     if user:
@@ -64,3 +63,25 @@ def me():
             "surname": user.surname,
             "email": user.email,
         }), 200
+
+@auth.route("/update-user", methods=["POST"])
+@jwt_required()
+def update_user():
+    data = request.json
+    if data:
+        user_id = get_jwt_identity()
+        name = data.get("name")
+        surname = data.get("surname")
+        email = data.get("email")
+        password1 = data.get("password1")
+        password2 = data.get("password2")
+        return update_user_account(user_id, name, surname, email, password1, password2)
+    else:
+        return jsonify({"message": "Error updating details. Please try again later."}), 401
+   
+
+@auth.route("/user", methods=["DELETE"])
+@jwt_required()
+def delete_user():
+    user_id = get_jwt_identity()
+    return confirm_delete_user(user_id)

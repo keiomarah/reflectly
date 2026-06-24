@@ -72,6 +72,53 @@ def user_login(username, password):
             "category":"failure"
         }), 401
     
+def update_user_account(id, name, surname, email, password1, password2):
+    user = User.query.get(id)
+    if user:
+        user.name = name
+        user.surname = surname
+        user.email = email
+        if (password1 == ""):
+            db.session.commit()
+            return jsonify({
+                        "message" : "Account details successfully updated"
+                    }), 200
+        else:
+            if (password_match(password1, password2)):
+                if (check_strong_password(password1) == "strong"):
+                    user.password = generate_password_hash(password1)
+                    db.session.commit()
+                    return jsonify({
+                        "message" : "Account details successfully updated"
+                    }), 200
+                else:
+                    return jsonify({
+                        "message": "Password is not strong enough. Please try again"
+                    }), 400
+            else:
+                return jsonify ({
+                "message": "Passwords do not match please try again"
+                }), 400
+
+def confirm_delete_user(id):
+    user = db.session.get(User, id)
+    if user:
+        db.session.delete(user)
+        db.session.commit()
+        return jsonify({
+            "message": "Account deleted successfully."
+        }), 200
+    
+
+
+
+    entry = db.session.get(JournalEntry, id)
+    if entry:
+        db.session.delete(entry)
+        db.session.commit()
+        return jsonify({
+            "message": "Entry successfully deleted"
+        }), 200
 @jwt.user_identity_loader
 def user_identity_lookup(user):
     return str(user.id)

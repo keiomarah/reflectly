@@ -18,7 +18,7 @@ export function MenuIcon() {
             </Link>
           </li>
           <li>
-            <Link className="link-nav" to="/">
+            <Link className="link-nav" to="/auth/login">
               Log out
             </Link>
           </li>

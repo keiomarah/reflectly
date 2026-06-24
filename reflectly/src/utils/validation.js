@@ -10,7 +10,7 @@ export function validateUsername(username) {
 
   return "";
 }
-export function validateEmail(email) {
+export function validateEmail(email = "") {
   return !email.includes("@") ? "A valid email address includes '@'." : "";
 }
 export function validateName(name, type) {

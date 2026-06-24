@@ -6,6 +6,10 @@ import logo from "../assets/reflectly-logo.png";
 import { MoodForm } from "../components/MoodForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+
+const ENTRY_PREVIEW = 255;
 
 function WeekViewCalendar() {
   const [week, setWeek] = useState([]);
@@ -40,6 +44,7 @@ function WeekViewCalendar() {
     </div>
   );
 }
+
 function DailyMoodButton({ setShowMoodForm }) {
   return (
     <button
@@ -65,17 +70,19 @@ function JournalEntries({ entries, setShowMoodForm, setEntry, setEntries }) {
       const response = await axios.delete(`/api/journal/entry/${entry.id}`, {
         withCredentials: true,
       });
-    } catch (error) {
-      console.log(error);
-    }
 
-    try {
-      const response = await axios.get("/api/journal/entries", {
-        withCredentials: true,
-      });
-      setEntries(response.data);
+      toast.success(response.data.message);
+
+      try {
+        const response = await axios.get("/api/journal/entries", {
+          withCredentials: true,
+        });
+        setEntries(response.data);
+      } catch (error) {
+        toast.error("Error updating entries. Please try again later.");
+      }
     } catch (error) {
-      console.log(error);
+      toast.error("Error deleting entry. Please try again later.");
     }
   }
   return (
@@ -83,9 +90,8 @@ function JournalEntries({ entries, setShowMoodForm, setEntry, setEntries }) {
       {entries.length > 0 &&
         entries
           .map((entry) => (
-            <div className="journal-entry-wrapper">
+            <div className="journal-entry-wrapper" key={entry.id}>
               <div
-                key={entry.id}
                 className={`journal-entry background-${entry.mood}`}
                 onClick={(e) => {
                   setEntry(entry);
@@ -96,7 +102,7 @@ function JournalEntries({ entries, setShowMoodForm, setEntry, setEntries }) {
                 <p className="journal-entry-date">
                   {formatter.format(new Date(entry["updated-at"]))}
                 </p>
-                {entry.text.substring(0, 255)}
+                {entry.text.substring(0, ENTRY_PREVIEW)}
               </div>
               <button
                 className="control-btn delete-button"
@@ -112,21 +118,30 @@ function JournalEntries({ entries, setShowMoodForm, setEntry, setEntries }) {
     </div>
   );
 }
+
 export function HomeDashboard() {
-  const [name, setName] = useState("Guest");
+  const [name, setName] = useState("");
+  const [isLoadingName, setIsLoadingName] = useState(true);
   const [showMoodForm, setShowMoodForm] = useState(false);
   const [entries, setEntries] = useState([]);
   const [entry, setEntry] = useState(null);
+  const navigate = useNavigate();
   useEffect(() => {
     async function getName() {
       try {
         const response = await axios.get("/api/auth/me", {
           withCredentials: true,
         });
-        console.log(response.data.name);
         setName(response.data.name);
+        return true;
       } catch (error) {
-        console.log(error);
+        navigate("/auth/login");
+        toast.error(
+          "Error encountered while logging in. Please try again later.",
+        );
+        return false;
+      } finally {
+        setIsLoadingName(false);
       }
     }
 
@@ -137,11 +152,15 @@ export function HomeDashboard() {
         });
         setEntries(response.data);
       } catch (error) {
-        console.log(error);
+        toast.error("Error loading entries. Please try again later.");
       }
     }
-    getName();
-    getEntries();
+
+    async function init() {
+      const success = await getName();
+      if (success) await getEntries();
+    }
+    init();
   }, []);
   return (
     <div className="home-dashboard-page">
@@ -155,14 +174,15 @@ export function HomeDashboard() {
       <MenuIcon />
       <AddButton setShowMoodForm={setShowMoodForm} />
       <div className="welcome-header">
-        <img src={logo} className="home-logo" />
-        <h1>Hi, {name}.</h1>
+        <img src={logo} className="home-logo" alt="Concentric circle logo" />
+        <h1 className="dashboard-user-name">
+          {!isLoadingName && `Hi, ${name}.`}
+        </h1>
       </div>
       <DailyMoodButton setShowMoodForm={setShowMoodForm} />
       <WeekViewCalendar />
       <JournalEntries
         setEntry={setEntry}
-        entry={entry}
         setShowMoodForm={setShowMoodForm}
         entries={entries}
         setEntries={setEntries}
