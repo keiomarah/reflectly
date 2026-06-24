@@ -144,7 +144,7 @@ export function HomeDashboard() {
         setName(response.data.name);
         return true;
       } catch (error) {
-        navigate("/auth/login");
+        navigate("/");
         toast.error(
           "Error encountered while logging in. Please try again later.",
         );
