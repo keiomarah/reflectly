@@ -219,9 +219,9 @@ function AccountDetails() {
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <div>
-              <div className="form-icon">
+              {/*<div className="form-icon">
                 <FontAwesomeIcon icon={faEnvelope} />
-              </div>
+              </div>*/}
               <input
                 required
                 id="email"
@@ -255,9 +255,9 @@ function AccountDetails() {
           <div className="form-group">
             <label htmlFor="password1">New Password</label>
             <div>
-              <div className="form-icon">
+              {/*<div className="form-icon">
                 <FontAwesomeIcon icon={faLock} />
-              </div>
+              </div>*/}
               <input
                 id="password1"
                 aria-invalid={!(errors?.password1 === [])}
@@ -296,9 +296,9 @@ function AccountDetails() {
           <div className="form-group">
             <label htmlFor="password2">Confirm New Password</label>
             <div>
-              <div className="form-icon">
+              {/*<div className="form-icon">
                 <FontAwesomeIcon icon={faLock} />
-              </div>
+              </div>*/}
               <input
                 id="password2"
                 aria-invalid={!!errors.password2}

@@ -120,7 +120,7 @@ function LoginForm() {
         <button className="btn-primary login-btn" disabled={isLoading}>
           {isLoading ? "Logging in..." : "Log in"}
         </button>
-        <p className="secondary-text">
+        <p className="secondary-text register-text">
           Don't have an account?{" "}
           <Link to="/auth/signup" className="register-link">
             Register Now

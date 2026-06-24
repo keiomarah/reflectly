@@ -285,7 +285,7 @@ h1 {
   .left-panel {
     width: 100%;
     border-radius: 0;
-    padding: clamp(2rem, 3rem, 5rem);
+    padding: 2rem;
   }
 
   .login-page {
@@ -371,6 +371,12 @@ h1 {
   }
 }
 
+.register-text {
+  width: 100%;
+  display: block;
+  text-align: center;
+  margin-top: var(--space-2);
+}
 .circle {
   border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 50%;
@@ -958,5 +964,9 @@ fieldset input {
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
+  }
+
+  .submood-container {
+    margin: var(--space-2);
   }
 }
