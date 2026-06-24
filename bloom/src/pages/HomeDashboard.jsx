@@ -67,16 +67,22 @@ function JournalEntries({ entries, setShowMoodForm, setEntry, setEntries }) {
   });
   async function deleteEntry(entry) {
     try {
-      const response = await axios.delete(`/api/journal/entry/${entry.id}`, {
-        withCredentials: true,
-      });
+      const response = await axios.delete(
+        `${import.meta.env.VITE_API_URL}/api/journal/entry/${entry.id}`,
+        {
+          withCredentials: true,
+        },
+      );
 
       toast.success(response.data.message);
 
       try {
-        const response = await axios.get("/api/journal/entries", {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/journal/entries`,
+          {
+            withCredentials: true,
+          },
+        );
         setEntries(response.data);
       } catch (error) {
         toast.error("Error updating entries. Please try again later.");
@@ -129,9 +135,12 @@ export function HomeDashboard() {
   useEffect(() => {
     async function getName() {
       try {
-        const response = await axios.get("/api/auth/me", {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/auth/me`,
+          {
+            withCredentials: true,
+          },
+        );
         setName(response.data.name);
         return true;
       } catch (error) {
@@ -147,9 +156,12 @@ export function HomeDashboard() {
 
     async function getEntries() {
       try {
-        const response = await axios.get("/api/journal/entries", {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/journal/entries`,
+          {
+            withCredentials: true,
+          },
+        );
         setEntries(response.data);
       } catch (error) {
         toast.error("Error loading entries. Please try again later.");

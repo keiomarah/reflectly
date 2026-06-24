@@ -40,7 +40,7 @@ function LoginForm() {
       try {
         setIsLoading(true);
         const response = await axios.post(
-          "/api/auth/login",
+          `${import.meta.env.VITE_API_URL}/api/auth/login`,
           {
             username,
             password,

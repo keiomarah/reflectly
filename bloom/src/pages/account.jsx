@@ -33,7 +33,9 @@ function DeleteAccount() {
 
   async function deleteAccount() {
     try {
-      const response = await axios.delete("/api/auth/user");
+      const response = await axios.delete(
+        `${import.meta.env.VITE_API_URL}/api/auth/user`,
+      );
       toast.success(response.data.message);
       navigate("/auth/login");
     } catch (error) {
@@ -98,9 +100,12 @@ function AccountDetails() {
     const email = emailRef.current;
     const currentPassword = currentPasswordRef.current;
     try {
-      const response = await axios.get("/api/auth/me", {
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/auth/me`,
+        {
+          withCredentials: true,
+        },
+      );
       console.log(response.data);
       user = response.data;
 
@@ -132,7 +137,7 @@ function AccountDetails() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "/api/auth/update-user",
+        `${import.meta.env.VITE_API_URL}/api/auth/update-user`,
         {
           name,
           surname,

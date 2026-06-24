@@ -55,14 +55,17 @@ function SignUpForm({ setFlashMessage, setCategory }) {
     } else {
       try {
         setIsloading(true);
-        const response = await axios.post("/api/auth/signup", {
-          name: name,
-          surname: surname,
-          email: email,
-          username: username,
-          password1: password1,
-          password2: password2,
-        });
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/api/auth/signup`,
+          {
+            name: name,
+            surname: surname,
+            email: email,
+            username: username,
+            password1: password1,
+            password2: password2,
+          },
+        );
 
         toast.success(response.data.message);
 

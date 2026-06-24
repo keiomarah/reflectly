@@ -41,9 +41,8 @@ function App() {
         }}
       />
       <Routes>
-        <Route path="/" element={<Home />} />
         <Route path="/account" element={<Account />} />
-        <Route path="/auth/login" element={<LoginPage />} />
+        <Route path="/" element={<LoginPage />} />
         <Route path="/auth/signup" element={<SignUpPage />} />
         <Route path="/homedashboard" element={<HomeDashboard />} />
       </Routes>

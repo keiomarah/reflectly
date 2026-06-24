@@ -208,7 +208,7 @@ export function MoodForm({
     try {
       if (entry) {
         const response = await axios.put(
-          `/api/journal/entry/${entry.id}`,
+          `${import.meta.env.VITE_API_URL}/api/journal/entry/${entry.id}`,
           {
             mood: mainMood || entry.mood,
             "sub-mood": subMood || entry.submood,
@@ -221,7 +221,7 @@ export function MoodForm({
         toast.success(response.data.message);
       } else {
         const response = await axios.post(
-          "/api/journal/entry",
+          `${import.meta.env.VITE_API_URL}/api/journal/entry`,
           {
             mood: mainMood,
             "sub-mood": subMood,
@@ -234,9 +234,12 @@ export function MoodForm({
       }
 
       try {
-        const response = await axios.get("/api/journal/entries", {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/journal/entries`,
+          {
+            withCredentials: true,
+          },
+        );
         setEntries(response.data);
       } catch (error) {
         console.log(error);

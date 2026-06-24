@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/reflectly-logo.png";
-import axios from "axios";
 
 export function AuthLayout({ children }) {
   return (
