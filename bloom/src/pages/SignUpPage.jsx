@@ -65,6 +65,7 @@ function SignUpForm({ setFlashMessage, setCategory }) {
             password1: password1,
             password2: password2,
           },
+          { withCredentials: true },
         );
 
         toast.success(response.data.message);
