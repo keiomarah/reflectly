@@ -130,6 +130,7 @@ input {
   border: 1px solid var(--color-border);
   padding: 0 var(--space-2);
   background-color: #faf8f5;
+  font-size: 16px;
 }
 
 form {
