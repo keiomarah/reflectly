@@ -10,6 +10,6 @@ class Config:
     JWT_TOKEN_LOCATION = ["cookies"]
     JWT_COOKIE_HTTPONLY = True
     JWT_COOKIE_SECURE = os.environ.get("FLASK_ENV") == "production"
-    JWT_COOKIE_SAMESITE = "None"
+    JWT_COOKIE_SAMESITE = "Lax" if os.environ.get("FLASK_ENV") != "production" else "None"
     JWT_COOKIE_CSRF_PROTECT = False
     JWT_ACCESS_COOKIE_NAME = "access_token_cookie" 

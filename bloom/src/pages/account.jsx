@@ -34,7 +34,7 @@ function DeleteAccount() {
   async function deleteAccount() {
     try {
       const response = await axios.delete(
-        `${import.meta.env.VITE_API_URL}/api/auth/user`,
+        `${import.meta.env.VITE_API_URL}/auth/user`,
       );
       toast.success(response.data.message);
       navigate("/auth/login");
